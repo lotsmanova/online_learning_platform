@@ -7,7 +7,7 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('courses', '0001_initial'),
+        ('course', '0001_initial'),
     ]
 
     operations = [
@@ -16,10 +16,10 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('title', models.CharField(max_length=250, verbose_name='название')),
-                ('prewie', models.ImageField(blank=True, null=True, upload_to='courses/', verbose_name='превью')),
+                ('prewie', models.ImageField(blank=True, null=True, upload_to='course/', verbose_name='превью')),
                 ('description', models.TextField(verbose_name='описание')),
                 ('link_video', models.CharField(max_length=250, verbose_name='ссылка')),
-                ('course', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='courses.course', verbose_name='курс')),
+                ('course', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='course.course', verbose_name='курс')),
             ],
             options={
                 'verbose_name': 'урок',

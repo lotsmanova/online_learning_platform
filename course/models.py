@@ -5,7 +5,7 @@ from users.models import NULLABLE
 
 class Course(models.Model):
     title = models.CharField(max_length=250, verbose_name='название')
-    prewie = models.ImageField(upload_to='courses/', verbose_name='превью', **NULLABLE)
+    prewie = models.ImageField(upload_to='course/', verbose_name='превью', **NULLABLE)
     description = models.TextField(verbose_name='описание')
 
     def __str__(self):
@@ -19,7 +19,7 @@ class Course(models.Model):
 
 class Lesson(models.Model):
     title = models.CharField(max_length=250, verbose_name='название')
-    prewie = models.ImageField(upload_to='courses/', verbose_name='превью', **NULLABLE)
+    prewie = models.ImageField(upload_to='course/', verbose_name='превью', **NULLABLE)
     description = models.TextField(verbose_name='описание')
     link_video = models.CharField(max_length=250, verbose_name='ссылка')
     course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name='курс')

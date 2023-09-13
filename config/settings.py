@@ -42,7 +42,7 @@ INSTALLED_APPS = [
 
     'rest_framework',
 
-    'courses.apps.CourseConfig',
+    'course.apps.CourseConfig',
     'users.apps.UsersConfig',
 ]
 
