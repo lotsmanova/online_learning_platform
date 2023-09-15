@@ -51,5 +51,16 @@
       "payment_amount": 100000,
       "payment_method": "Перевод на счет"
     }
+  },
+  {
+    "model": "course.payments",
+    "pk": 3,
+    "fields": {
+      "user": 2,
+      "date_payment": "2023-01-08",
+      "paid_course": "1",
+      "payment_amount": 100000,
+      "payment_method": "Перевод на счет"
+    }
   }
 ]
