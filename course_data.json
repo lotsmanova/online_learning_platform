@@ -31,7 +31,7 @@
     }
   },
     {
-    "model": "course.payments",
+    "model": "payments.payments",
     "pk": 1,
     "fields": {
       "user": 1,
@@ -42,10 +42,10 @@
     }
   },
   {
-    "model": "course.payments",
+    "model": "payments.payments",
     "pk": 2,
     "fields": {
-      "user": 2,
+      "user": 1,
       "date_payment": "2021-08-08",
       "paid_course": "1",
       "payment_amount": 100000,
@@ -53,10 +53,10 @@
     }
   },
   {
-    "model": "course.payments",
+    "model": "payments.payments",
     "pk": 3,
     "fields": {
-      "user": 2,
+      "user": 1,
       "date_payment": "2023-01-08",
       "paid_course": "1",
       "payment_amount": 100000,
