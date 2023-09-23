@@ -3,6 +3,7 @@ from rest_framework import viewsets, generics
 from rest_framework.filters import OrderingFilter
 from rest_framework.permissions import IsAuthenticated
 from course.models import Course, Lesson, Payments, Subscribe_update
+from course.paginators import ListPaginator
 from course.permissions import IsInModerator, IsUserOwner
 from course.serializers import CourseSerializer, LessonSerializer, PaymentsSerializer, SubscribeSerializer, \
     CourseListSerializers
@@ -14,6 +15,7 @@ class CourseViewSet(viewsets.ModelViewSet):
         'list': CourseListSerializers
     }
     queryset = Course.objects.all()
+    pagination_class = ListPaginator
     permission_classes_by_action = {'create': [IsAuthenticated],
                                     'list': [IsAuthenticated, IsInModerator],
                                     'retrieve': [IsAuthenticated, IsInModerator | IsUserOwner],
@@ -43,6 +45,7 @@ class LessonCreateAPIView(generics.CreateAPIView):
 
 class LessonListAPIView(generics.ListAPIView):
     serializer_class = LessonSerializer
+    pagination_class = ListPaginator
     queryset = Lesson.objects.all()
     permission_classes = [IsAuthenticated, IsInModerator]
 
