@@ -7,9 +7,9 @@ from users.serializers import UserSerializer, UserRetrieveSerializer, UserUpdate
 
 
 class UserViewSet(viewsets.ModelViewSet):
-    # serializer_class = UserSerializer
+
     queryset = User.objects.all()
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     default_serializer = UserSerializer
     serializers = {
         'retrieve': UserRetrieveSerializer,
@@ -19,8 +19,7 @@ class UserViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         return self.serializers.get(self.action, self.default_serializer)
 
-
-    def get_permissions(self):
-        if self.action in ['update', 'partial_update']:
-            self.permission_classes = [IsAuthenticated, IsUpdateProfile]
-        return super().get_permissions()
+    # def get_permissions(self):
+    #     if self.action in ['update', 'partial_update']:
+    #         self.permission_classes = [IsAuthenticated, IsUpdateProfile]
+    #     return super().get_permissions()

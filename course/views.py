@@ -16,11 +16,11 @@ class CourseViewSet(viewsets.ModelViewSet):
     }
     queryset = Course.objects.all()
     pagination_class = ListPaginator
-    permission_classes_by_action = {'create': [IsAuthenticated],
-                                    'list': [IsAuthenticated, IsInModerator],
-                                    'retrieve': [IsAuthenticated, IsInModerator | IsUserOwner],
-                                    'update': [IsAuthenticated, IsInModerator | IsUserOwner],
-                                    'destroy': [IsAuthenticated]}
+    # permission_classes_by_action = {'create': [IsAuthenticated],
+    #                                 'list': [IsAuthenticated, IsInModerator],
+    #                                 'retrieve': [IsAuthenticated, IsInModerator | IsUserOwner],
+    #                                 'update': [IsAuthenticated, IsInModerator | IsUserOwner],
+    #                                 'destroy': [IsAuthenticated]}
 
     def get_serializer_class(self):
         return self.serializers.get(self.action, self.default_serializer)
@@ -35,7 +35,7 @@ class CourseViewSet(viewsets.ModelViewSet):
 
 class LessonCreateAPIView(generics.CreateAPIView):
     serializer_class = LessonSerializer
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
         new_lesson = serializer.save()
@@ -45,26 +45,26 @@ class LessonCreateAPIView(generics.CreateAPIView):
 
 class LessonListAPIView(generics.ListAPIView):
     serializer_class = LessonSerializer
-    pagination_class = ListPaginator
+    # pagination_class = ListPaginator
     queryset = Lesson.objects.all()
-    permission_classes = [IsAuthenticated, IsInModerator]
+    # permission_classes = [IsAuthenticated, IsInModerator]
 
 
 class LessonRetrieveAPIView(generics.RetrieveAPIView):
     serializer_class = LessonSerializer
     queryset = Lesson.objects.all()
-    permission_classes = [IsAuthenticated, IsInModerator | IsUserOwner]
+    # permission_classes = [IsAuthenticated, IsInModerator | IsUserOwner]
 
 
 class LessonUpdateAPIView(generics.UpdateAPIView):
     serializer_class = LessonSerializer
     queryset = Lesson.objects.all()
-    permission_classes = [IsAuthenticated, IsInModerator | IsUserOwner]
+    # permission_classes = [IsAuthenticated, IsInModerator | IsUserOwner]
 
 
 class LessonDestroyAPIView(generics.DestroyAPIView):
     queryset = Lesson.objects.all()
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
 
 
 class PaymentsListAPIView(generics.ListAPIView):
@@ -73,14 +73,14 @@ class PaymentsListAPIView(generics.ListAPIView):
     filter_backends = [DjangoFilterBackend, OrderingFilter]
     filterset_fields = ('paid_lesson', 'paid_course', 'payment_method',)
     ordering_fields = ('date_payment',)
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
 
 
 class SubscribeCreateAPIView(generics.CreateAPIView):
     serializer_class = SubscribeSerializer
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
 
 
 class SubscribeDestroyAPIView(generics.DestroyAPIView):
     queryset = Subscribe_update.objects.all()
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
