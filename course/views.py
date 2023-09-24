@@ -3,13 +3,13 @@ from rest_framework.permissions import IsAuthenticated
 from course.models import Course, Lesson
 from course.paginators import ListPaginator
 from course.permissions import IsInModerator, IsUserOwner
-from course.serializers import CourseSerializer, LessonSerializer, CourseListSerializers
+from course.serializers import CourseSerializer, LessonSerializer, CourseListSerializer
 
 
 class CourseViewSet(viewsets.ModelViewSet):
     default_serializer = CourseSerializer
     serializers = {
-        'list': CourseListSerializers
+        'list': CourseListSerializer
     }
     queryset = Course.objects.all()
     pagination_class = ListPaginator

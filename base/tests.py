@@ -8,6 +8,7 @@ from users.models import User
 class BaseTestCase(APITestCase):
     email = 'test@mail.ru'
     password = '12345'
+
     def setUp(self) -> None:
         self.user = User.objects.create(
             email=self.email

@@ -2,6 +2,7 @@ from rest_framework import serializers
 
 from course.models import Course, Lesson
 from course.validators import LinkValidator
+from subscribes.models import Subscribe_update
 
 
 class LessonSerializer(serializers.ModelSerializer):
@@ -21,7 +22,7 @@ class CourseSerializer(serializers.ModelSerializer):
 
 
 
-class CourseListSerializers(serializers.ModelSerializer):
+class CourseListSerializer(serializers.ModelSerializer):
     lesson_count = serializers.SerializerMethodField(read_only=True)
     is_update = serializers.SerializerMethodField(read_only=True)
 
@@ -34,7 +35,8 @@ class CourseListSerializers(serializers.ModelSerializer):
 
 
     def get_is_update(self, instance):
-        if instance:
-            return 'подписка на обновления активирована'
-        return 'подписка не активирована'
-
+        try:
+            subscribe_update = Subscribe_update.objects.get(course=instance)
+            return 'подписка на обновления активирована' if subscribe_update.is_update else 'подписка не активирована'
+        except Subscribe_update.DoesNotExist:
+            return 'подписка не активирована'
