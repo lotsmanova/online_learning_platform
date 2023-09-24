@@ -1,10 +1,8 @@
 from django.urls import reverse
 from rest_framework import status
-from rest_framework.test import APITestCase
-
 from base.tests import BaseTestCase
-from course.models import Course, Lesson
-from users.models import User
+from course.models import Lesson
+
 
 
 class CourseTestCase(BaseTestCase):
