@@ -22,8 +22,8 @@ class CourseSerializer(serializers.ModelSerializer):
 
 
 class CourseListSerializers(serializers.ModelSerializer):
-    lesson_count = serializers.SerializerMethodField()
-    is_update = serializers.SerializerMethodField()
+    lesson_count = serializers.SerializerMethodField(read_only=True)
+    is_update = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Course

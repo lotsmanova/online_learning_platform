@@ -2,23 +2,15 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 
+from base.tests import BaseTestCase
 from course.models import Course, Lesson
 from users.models import User
 
 
-class CourseTestCase(APITestCase):
+class CourseTestCase(BaseTestCase):
 
     def setUp(self) -> None:
-        self.user = User.objects.create(
-            email='test@mail.ru',
-            password='12345'
-        )
-
-        self.course = Course.objects.create(
-            title='Test course',
-            description='Test course',
-            owner=self.user
-        )
+        super().setUp()
 
         self.lesson = Lesson.objects.create(
             title='Test lesson',
@@ -27,9 +19,6 @@ class CourseTestCase(APITestCase):
             course=self.course,
             owner=self.user
         )
-
-        # авторизация пользователя
-        self.client.force_authenticate(user=self.user)
 
 
     def test_create_lesson(self):
@@ -71,9 +60,9 @@ class CourseTestCase(APITestCase):
         )
 
         self.assertEqual(
-            response.json(),
-            [{'id': 1, 'title': 'Test lesson', 'prewie': None, 'description': 'Test lesson', 'link_video': 'test.youtube.com',
-             'course': 1, 'owner': 1}]
+            response.json()['results'],
+            [{'id': 4, 'title': 'Test lesson', 'prewie': None, 'description': 'Test lesson', 'link_video': 'test.youtube.com',
+             'course': 3, 'owner': 3}]
         )
 
 
@@ -91,16 +80,16 @@ class CourseTestCase(APITestCase):
 
         self.assertEqual(
             response.json(),
-            {'id': 1, 'title': 'Test lesson', 'prewie': None, 'description': 'Test lesson', 'link_video': 'test.youtube.com',
-             'course': 1, 'owner': 1}
+            {'id': 5, 'title': 'Test lesson', 'prewie': None, 'description': 'Test lesson', 'link_video': 'test.youtube.com',
+             'course': 4, 'owner': 4}
         )
 
 
     def test_update_lesson(self):
 
-        response = self.client.patch(
+        response = self.client.put(
             reverse('course:lesson_update', kwargs={'pk': self.lesson.id}),
-            {'title': 'Test update lesson'}
+            {'id': 6, 'title': 'Test lesson update', 'description': 'Test lesson update', 'link_video': 'test.youtube.com', 'course': 5, 'owner': 5}
         )
 
         self.assertEqual(
@@ -108,4 +97,23 @@ class CourseTestCase(APITestCase):
             status.HTTP_200_OK
         )
 
+        self.assertEqual(
+            response.json(),
+            {'id': 6, 'title': 'Test lesson update', 'prewie': None, 'description': 'Test lesson update',
+             'link_video': 'test.youtube.com',
+             'course': 5, 'owner': 5}
+        )
+
+
+    def test_delete_lesson(self):
+
+        response = self.client.delete(
+            reverse('course:lesson_delete', kwargs={'pk': self.lesson.id}),
+
+        )
+
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_204_NO_CONTENT
+        )
 
