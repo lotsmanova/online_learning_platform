@@ -38,7 +38,7 @@ class SubscribesTestCase(BaseTestCase):
 
         self.assertEqual(
             response.json(),
-            {'id': 2, 'course': 13, 'owner': 12, 'is_update': True}
+            {'id': 2, 'is_update': True, 'course': 13, 'owner': 12}
         )
 
 
