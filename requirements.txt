@@ -9,3 +9,4 @@ pytz
 sqlparse
 djangorestframework-simplejwt
 coverage
+drf-yasg
