@@ -1,11 +1,11 @@
 from rest_framework import serializers
 
-from payments.serializers import PaymentsSerializer
+from payments.serializers import PaymentsListSerializer
 from users.models import User
 
 
 class UserSerializer(serializers.ModelSerializer):
-    payments = PaymentsSerializer(source='payments_set', many=True, read_only=True)
+    payments = PaymentsListSerializer(source='payments_set', many=True, read_only=True)
 
     class Meta:
         model = User
@@ -22,3 +22,9 @@ class UserUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = '__all__'
+
+
+class UserPaymentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'email']

@@ -10,3 +10,4 @@ sqlparse
 djangorestframework-simplejwt
 coverage
 drf-yasg
+stripe
