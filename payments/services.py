@@ -5,8 +5,8 @@ stripe.api_key = settings.STRIPE_API_KEY
 
 def get_session(instance):
     """ Функция возвращает сессию для оплаты """
+
     title_product = f"{instance.lesson}" if instance.lesson else ''
-    # title_product = f"{instance.course}" if instance.course else ''
 
     product = stripe.Product.create(name=f'{title_product}')
     price = stripe.Price.create(

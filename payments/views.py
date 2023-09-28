@@ -30,11 +30,10 @@ class PaymentsCreateAPIView(generics.CreateAPIView):
 
     def perform_create(self, serializer):
         lesson = serializer.validated_data.get('lesson')
-        course = serializer.validated_data.get('course')
 
-        if not lesson and not course:
+        if not lesson:
             raise serializer.ValidationError({
-                'message_error': 'Необходимо заполнить одно из полей "lesson" или "course"'
+                'message_error': 'Необходимо заполнить "lesson"'
             })
         new_pay = serializer.save()
         new_pay.user = self.request.user
