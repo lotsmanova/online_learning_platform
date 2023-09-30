@@ -22,6 +22,22 @@ class LessonSerializer(serializers.ModelSerializer):
             return 'подписка не активирована'
 
 
+class LessonUpdateSerializer(serializers.ModelSerializer):
+    is_update_lesson = serializers.SerializerMethodField(read_only=True)
+
+    class Meta:
+        model = Lesson
+        fields = '__all__'
+
+    def get_is_update_course(self, instance):
+        try:
+            subscribe_update = SubscribeUpdate.objects.get(course=instance)
+            return True if subscribe_update.is_update_course else False
+            # return 'подписка на обновления активирована' if subscribe_update.is_update_course else 'подписка не активирована'
+        except SubscribeUpdate.DoesNotExist:
+            return 'подписка не активирована'
+
+
 class CourseSerializer(serializers.ModelSerializer):
     lesson = LessonSerializer(source='lesson_set', many=True, read_only=True)
 
@@ -51,6 +67,7 @@ class CourseListSerializer(serializers.ModelSerializer):
             # return 'подписка на обновления активирована' if subscribe_update.is_update_course else 'подписка не активирована'
         except SubscribeUpdate.DoesNotExist:
             return 'подписка не активирована'
+
 
 class CourseUpdateSerializer(serializers.ModelSerializer):
     is_update_course = serializers.SerializerMethodField(read_only=True)
