@@ -3,13 +3,16 @@ from rest_framework.permissions import IsAuthenticated
 from course.models import Course, Lesson
 from course.paginators import ListPaginator
 from course.permissions import IsInModerator, IsUserOwner
-from course.serializers import CourseSerializer, LessonSerializer, CourseListSerializer
+from course.serializers import CourseSerializer, LessonSerializer, CourseListSerializer, CourseUpdateSerializer
+from subscribes.tasks import sending_mail
 
 
 class CourseViewSet(viewsets.ModelViewSet):
     default_serializer = CourseSerializer
     serializers = {
-        'list': CourseListSerializer
+        'list': CourseListSerializer,
+        'update': CourseUpdateSerializer,
+        'retrieve': CourseUpdateSerializer
     }
     queryset = Course.objects.all()
     pagination_class = ListPaginator
@@ -30,6 +33,13 @@ class CourseViewSet(viewsets.ModelViewSet):
         new_course.save()
         return response
 
+
+    def perform_update(self, serializer):
+        instance = self.get_object()
+        subscribe_update = instance.subscribe.get(owner=self.request.user)
+        if subscribe_update.is_update_course:
+            sending_mail.delay(instance.id, 'Course')
+        serializer.save()
 
 
 class LessonCreateAPIView(generics.CreateAPIView):

@@ -1,9 +1,9 @@
 from rest_framework import serializers
 
-from subscribes.models import Subscribe_update
+from subscribes.models import SubscribeUpdate
 
 
 class SubscribeSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Subscribe_update
+        model = SubscribeUpdate
         fields = '__all__'

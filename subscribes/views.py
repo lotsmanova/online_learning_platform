@@ -1,7 +1,7 @@
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 
-from subscribes.models import Subscribe_update
+from subscribes.models import SubscribeUpdate
 from subscribes.serializers import SubscribeSerializer
 
 
@@ -11,5 +11,5 @@ class SubscribeCreateAPIView(generics.CreateAPIView):
 
 
 class SubscribeDestroyAPIView(generics.DestroyAPIView):
-    queryset = Subscribe_update.objects.all()
+    queryset = SubscribeUpdate.objects.all()
     permission_classes = [IsAuthenticated]
