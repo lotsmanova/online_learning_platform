@@ -1,9 +1,13 @@
+from datetime import datetime, timedelta
+from django.utils import timezone
+
 from rest_framework import viewsets, generics
 from rest_framework.permissions import IsAuthenticated
 from course.models import Course, Lesson
 from course.paginators import ListPaginator
 from course.permissions import IsInModerator, IsUserOwner
-from course.serializers import CourseSerializer, LessonSerializer, CourseListSerializer, CourseUpdateSerializer
+from course.serializers import CourseSerializer, LessonSerializer, CourseListSerializer, CourseUpdateSerializer, \
+    LessonUpdateSerializer
 from subscribes.tasks import sending_mail
 
 
@@ -30,6 +34,7 @@ class CourseViewSet(viewsets.ModelViewSet):
         response = super().create(request, *args, **kwargs)
         new_course = Course.objects.get(id=response.data['id'])
         new_course.owner = self.request.user
+        new_course.last_update = datetime.now()
         new_course.save()
         return response
 
@@ -37,7 +42,8 @@ class CourseViewSet(viewsets.ModelViewSet):
     def perform_update(self, serializer):
         instance = self.get_object()
         subscribe_update = instance.subscribe.get(owner=self.request.user)
-        if subscribe_update.is_update_course:
+        if subscribe_update.is_update_course and instance.last_update - timezone.now() > timedelta(hours=4):
+            instance.last_update = timezone.now()
             sending_mail.delay(instance.id, 'Course')
         serializer.save()
 
@@ -66,16 +72,18 @@ class LessonRetrieveAPIView(generics.RetrieveAPIView):
 
 
 class LessonUpdateAPIView(generics.UpdateAPIView):
-    serializer_class = LessonSerializer
+    serializer_class = LessonUpdateSerializer
     queryset = Lesson.objects.all()
     permission_classes = [IsAuthenticated, IsInModerator | IsUserOwner]
+
+    def perform_update(self, serializer):
+        instance = self.get_object()
+        subscribe_update = instance.subscribe.get(owner=self.request.user)
+        if subscribe_update.is_update_lesson:
+            sending_mail.delay(instance.id, 'Lesson')
+        serializer.save()
 
 
 class LessonDestroyAPIView(generics.DestroyAPIView):
     queryset = Lesson.objects.all()
     permission_classes = [IsAuthenticated]
-
-
-
-
-
