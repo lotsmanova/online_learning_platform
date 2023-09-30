@@ -1,19 +1,23 @@
 from django.conf import settings
 from django.db import models
 
-from course.models import Course
+from course.models import Course, Lesson
 from users.models import NULLABLE
 
 
-class Subscribe_update(models.Model):
+class SubscribeUpdate(models.Model):
 
-    course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name='ссылка на курс')
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name='ссылка на курс', **NULLABLE, related_name='subscribe')
+    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, verbose_name='ссылка на урок', **NULLABLE, related_name='subscribe')
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, **NULLABLE)
-    is_update = models.BooleanField(verbose_name='подписка на обновления', **NULLABLE)
+    is_update_course = models.BooleanField(verbose_name='подписка на обновления курса', **NULLABLE)
+    is_update_lesson = models.BooleanField(verbose_name='подписка на обновления урок', **NULLABLE)
 
 
     def __str__(self):
-        return f'{self.course} - {self.is_update}'
+        if self.course:
+            return f'{self.course} - {self.is_update_course}'
+        return f'{self.lesson} - {self.is_update_lesson}'
 
 
     class Meta:

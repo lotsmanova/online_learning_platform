@@ -1,7 +1,7 @@
 import stripe
 from django.conf import settings
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import generics, status
+from rest_framework import generics, status, serializers
 from rest_framework.filters import OrderingFilter
 from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
@@ -32,7 +32,7 @@ class PaymentsCreateAPIView(generics.CreateAPIView):
         lesson = serializer.validated_data.get('lesson')
 
         if not lesson:
-            raise serializer.ValidationError({
+            raise serializers.ValidationError({
                 'message_error': 'Необходимо заполнить "lesson"'
             })
         new_pay = serializer.save()
