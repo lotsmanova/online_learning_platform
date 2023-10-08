@@ -33,7 +33,6 @@ class LessonUpdateSerializer(serializers.ModelSerializer):
         try:
             subscribe_update = SubscribeUpdate.objects.get(course=instance)
             return True if subscribe_update.is_update_course else False
-            # return 'подписка на обновления активирована' if subscribe_update.is_update_course else 'подписка не активирована'
         except SubscribeUpdate.DoesNotExist:
             return 'подписка не активирована'
 
@@ -64,7 +63,6 @@ class CourseListSerializer(serializers.ModelSerializer):
             subscribe_update = SubscribeUpdate.objects.get(course=instance)
 
             return True if subscribe_update.is_update_course else False
-            # return 'подписка на обновления активирована' if subscribe_update.is_update_course else 'подписка не активирована'
         except SubscribeUpdate.DoesNotExist:
             return 'подписка не активирована'
 
@@ -80,6 +78,5 @@ class CourseUpdateSerializer(serializers.ModelSerializer):
         try:
             subscribe_update = SubscribeUpdate.objects.get(course=instance)
             return True if subscribe_update.is_update_course else False
-            # return 'подписка на обновления активирована' if subscribe_update.is_update_course else 'подписка не активирована'
         except SubscribeUpdate.DoesNotExist:
             return 'подписка не активирована'
