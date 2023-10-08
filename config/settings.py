@@ -157,9 +157,6 @@ STRIPE_API_KEY = os.getenv('STRIPE_API_KEY')
 
 CELERY_BROKER_URL = 'redis://localhost:6379/0'
 CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
-# CELERY_BROKER_URL = 'redis://localhost:6379/3'
-# CELERY_RESULT_BACKEND = 'redis://localhost:6379/3'
-# CELERYD_LOG_LEVEL = 'INFO'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.yandex.ru'
